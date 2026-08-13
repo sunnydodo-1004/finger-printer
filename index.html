@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FINGER IQ | 지문 다중지능 분석</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <section id="passwordGate" class="password-gate">
+        <div class="password-card">
+            <div class="password-logo">FINGER IQ</div>
+            <h1>접속 비밀번호</h1>
+            <p>비밀번호를 입력해주세요.</p>
+
+            <input
+                type="password"
+                id="accessPassword"
+                placeholder="비밀번호 입력"
+                autocomplete="current-password"
+            >
+
+            <button id="passwordEnterBtn" type="button">
+                입장하기
+            </button>
+
+            <div id="passwordError" class="password-error"></div>
+        </div>
+    </section>
+
+
+    <main class="app">
+
+        <!-- 첫 화면 -->
+        <section id="startScreen" class="screen active">
+
+            <div class="logo">FINGER IQ</div>
+
+            <h1>지문 다중지능 분석</h1>
+
+            <p class="subtitle">
+                지문을 통해 발견하는<br>
+                나의 강점과 잠재력
+            </p>
+
+            <div class="first-screen-sample">
+                <div class="first-screen-sample-title">📷 촬영 예시</div>
+                <img src="capture-example.png" alt="지문 촬영 예시">
+                <p>
+                    손끝 지문이 화면에 크게 보이고<br>
+                    지문의 선이 눈으로 구분될 정도로 촬영해주세요.
+                </p>
+            </div>
+
+            <div class="form-box">
+
+                <label for="name">검사자 이름</label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="이름을 입력하세요"
+                >
+
+                <label for="birth">생년월일</label>
+                <input
+                    type="date"
+                    id="birth"
+                >
+
+                <label for="consultant">상담자</label>
+                <input
+                    type="text"
+                    id="consultant"
+                    placeholder="상담자 이름을 입력하세요"
+                >
+
+                <div class="test-mode-box" id="testModeBox">
+                    <div class="test-mode-title">검사 유형을 선택해주세요</div>
+
+                    <label class="test-mode-option">
+                        <input type="radio" name="testMode" value="simple" checked>
+                        <span>
+                            <strong>간편검사</strong>
+                            <small>왼쪽 엄지·검지 + 오른쪽 엄지·검지<br>총 4개 손가락 · 각 2회 촬영</small>
+                        </span>
+                    </label>
+
+                    <label class="test-mode-option">
+                        <input type="radio" name="testMode" value="full">
+                        <span>
+                            <strong>정밀검사</strong>
+                            <small>양손 10개 손가락 · 각 1회 촬영</small>
+                        </span>
+                    </label>
+                </div>
+
+                <button id="startBtn">
+                    검사 시작하기
+                </button>
+
+            </div>
+
+            <p class="notice">
+                ※ 본 검사는 상담 및 자기이해를 위한 성향 분석 도구입니다.
+            </p>
+
+        </section>
+
+<!-- 지문 촬영 화면 -->
+<section id="fingerScreen" class="screen">
+
+    <div class="progress-area">
+
+        <div class="progress-text">
+            <span id="currentNumber">1</span>
+            /
+            <span id="totalNumber">10</span>
+        </div>
+
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+
+    </div>
+
+
+    <div class="finger-box">
+
+        <div class="hand-label" id="handLabel">
+            왼손
+        </div>
+
+        <h2 id="fingerName">
+            왼손 엄지 지문
+        </h2>
+
+        <p class="description">
+            손가락 끝의 지문이 선명하게 보이도록<br>
+            카메라로 촬영해주세요.
+        </p>
+
+
+        <!-- 촬영 가이드 -->
+        <div class="camera-guide">
+
+            <div class="finger-guide">
+                <span>손끝 지문을 이 영역에 맞춰주세요</span>
+            </div>
+
+        </div>
+
+
+        <!-- 카메라 버튼 -->
+        <input
+            type="file"
+            id="cameraInput"
+            accept="image/*"
+            capture="environment"
+            hidden
+        >
+
+        <button
+            class="camera-btn"
+            id="cameraBtn"
+        >
+            📷 카메라로 촬영
+        </button>
+
+
+        <!-- 기존 사진 선택 -->
+        <input
+            type="file"
+            id="galleryInput"
+            accept="image/*"
+            hidden
+        >
+
+        <button
+            class="gallery-btn"
+            id="galleryBtn"
+        >
+            🖼 사진에서 선택
+        </button>
+
+
+        <!-- 사진 미리보기 -->
+        <div
+            id="previewArea"
+            class="preview-area"
+        >
+            촬영한 지문이 여기에 표시됩니다.
+        </div>
+
+
+        <!-- 촬영 후 버튼 -->
+        <div
+            id="photoActions"
+            class="photo-actions"
+            style="display:none;"
+        >
+
+            <button
+                id="retakeBtn"
+                class="retake-btn"
+            >
+                다시 촬영
+            </button>
+
+            <button
+                id="usePhotoBtn"
+                class="use-photo-btn"
+            >
+                이 사진 사용
+            </button>
+
+        </div>
+
+
+        <!-- 다음 -->
+        <button
+            id="nextBtn"
+            class="next-btn"
+            disabled
+        >
+            다음 지문 →
+        </button>
+
+    </div>
+
+</section>
+    
+
+
+   
+
+
+        <!-- 완료 화면 -->
+        <section id="completeScreen" class="screen">
+
+            <div class="complete-icon">
+                ✓
+            </div>
+
+            <h1>지문 등록 완료</h1>
+
+            <p>
+                10개의 지문 사진이 모두 등록되었습니다.
+            </p>
+
+            <button id="analysisBtn">
+                지문 분석 시작
+            </button>
+
+        </section>
+
+
+        <!-- 분석 결과 화면 -->
+        <section id="resultScreen" class="screen">
+            <div class="result-container">
+                <div class="result-header">
+                    <div class="logo">FINGER IQ</div>
+                    <h1>분석 결과</h1>
+                    <p id="resultParticipant" class="result-participant"></p>
+                </div>
+
+                <div class="result-card result-summary-card">
+                    <div class="result-eyebrow">TOP 3</div>
+                    <h2>강점 영역</h2>
+                    <div id="top3Results" class="top3-results"></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-eyebrow">8 AREAS</div>
+                    <h2>영역별 성향 점수</h2>
+                    <div id="intelligenceResults" class="intelligence-results"></div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-eyebrow">LEARNING STYLE</div>
+                    <h2>추천 학습 스타일</h2>
+                    <p id="learningStyleResult" class="learning-style-result"></p>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-eyebrow">FINGERPRINTS</div>
+                    <h2>10개 지문 패턴</h2>
+                    <div id="fingerPatternResults" class="finger-pattern-results"></div>
+                </div>
+
+                <p class="result-disclaimer">
+                    ※ 이 결과는 현재 앱에 설정된 지문 패턴-성향 매핑 규칙을 이용한 참고용 결과입니다.
+                    지문만으로 지능이나 능력을 과학적으로 진단하는 검사는 아닙니다.
+                </p>
+
+                <button id="restartBtn" class="restart-btn">새 검사 시작</button>
+            </div>
+        </section>
+
+    </main>
+
+<script src="image-quality.js"></script>
+<script src="fingerprint-detector.js"></script>
+<script src="fingerprint-engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
